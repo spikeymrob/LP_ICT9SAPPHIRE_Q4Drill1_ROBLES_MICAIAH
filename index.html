@@ -1,84 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Practice Activity</title>
 
-    <link href="https://fonts.cdnfonts.com/css/weezerfont" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/weezerfont" rel="stylesheet" />
     <style>
-        body{
-            font-family: 'WeezerFont', sans-serif;text-align: center;
-            margin-top: 80px;
-            background-color: #ffe15b;
-        }
-        .container{
-            background-color: white;
-            padding:20px;
-            width: 300px;
-            margin:auto;
-            border:1px solid #ccc;
-        }
-        input{
-            padding: 6px;
-            width: 80%;
-            margin-bottom: 10px;
-        }
-        button{
-            padding:8px 15px;
-        }
+      body {
+        font-family: "WeezerFont", sans-serif;
+        text-align: center;
+        margin-top: 80px;
+        background-color: #ffe15b;
+      }
+      .container {
+        background-color: white;
+        padding: 20px;
+        width: 300px;
+        margin: auto;
+        border: 1px solid #ccc;
+      }
+      input {
+        padding: 6px;
+        width: 80%;
+        margin-bottom: 10px;
+      }
+      button {
+        padding: 8px 15px;
+      }
 
-        output{
-            margin-top: 15px;
-            text-align: left;
-        }
-        </style>
-</head>
-<body>
-    
+      output {
+        margin-top: 15px;
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
     <div class="container">
-        <h2> Electric Consumption Classifier!</h2>
-        <input type="number" id="score" placeholder="Input kilowatt per hour">
+      <h2>Electric Consumption Classifier!</h2>
+      <input type="number" id="kwh" placeholder="Input kilowatt per hour" />
 
-        <br>
-        <button onclick="evaluateScore()"> Consumption Classification </button>
+      <br />
+      <button onclick="evaluateScore()">Consumption Classification</button>
 
-        <div class="output">
-            <p id="status"></p>
-            <p id="grade"></p>
-
-        </div>
+      <div class="output">
+        <p id="result"></p>
+      </div>
     </div>
 
     <script>
-        function evaluateScore(){
+      function classifyConsumption() {
+        const usage = parseFloat(document.getElementById("kwh").value);
 
-            var studentScore = document.getElementById("score").value;
-            if (studentScore === ""){
-                alert("Please enter");
-                return;
-            }
-            studentScore=Number(studentScore)
-            var passStatus="";
+        let category = "";
+        let description = "";
 
-    
-
-            var letterGrade="";
-            if(studentScore >=500){letterGrade = "A";}
-            else if(studentScore >=301){letterGrade = "B";}
-            else if(studentScore >=201){letterGrade = "C";}
-            else if(studentScore >=101){letterGrade = "D";}
-            else if(studentScore >=0){letterGrade = "E";}
-            
-            
-            
-
-            document.getElementById("status").innerHTML =passStatus;
-            document.getElementById("grade").innerHTML ="Grade: "+letterGrade + " " + gradeRemark;
-            
-
+        if (isNaN(usage) || usage < 0) {
+          document.getElementById("result").innerHTML = "⚠️ Please enter a valid kWh value.";
+          return;
         }
-    </script>
 
-</body>
+        if (usage >= 0 && usage <= 100) {
+          category = "Lifeline Consumer";
+          description = "Discounted electricity rates";
+        } else if (usage <= 200) {
+          category = "Low Consumption";
+          description = "Normal residential rate";
+        } else if (usage <= 300) {
+          category = "Average Consumption";
+          description = "Typical electricity usage";
+        } else if (usage <= 500) {
+          category = "High Consumption";
+          description = "Higher electricity usage";
+        } else {
+          category = "Very High Consumption";
+          description = "Heavy electricity users";
+        }
+
+        document.getElementById("result").innerHTML = `<strong>Category:</strong> ${category}<br>
+         <strong>Description:</strong> ${description}`;
+      }
+    </script>
+  </body>
 </html>
